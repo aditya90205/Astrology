@@ -15,7 +15,7 @@ const Navbar = () => {
 
         {/* Links for larger screens */}
         <div className="hidden md:flex space-x-6">
-          <a href="#" className="text-white hover:text-gray-300">
+          <a href="/" className="text-white hover:text-gray-300">
             Home
           </a>
           <a href="#" className="text-white hover:text-gray-300">

@@ -1,5 +1,5 @@
 import express from "express";
-import { getCatgeories } from "../controllers/category.js";
+import { getCatgeories } from "../controller/category.js";
 
 const router = express.Router();
 router.get("/", getCatgeories);
