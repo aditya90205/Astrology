@@ -13,6 +13,9 @@ const categorySchema = new mongoose.Schema({
     trim: true,
     default: "",
   },
+  imgLink: {
+    type: String,
+  },
   active: {
     type: Boolean,
     default: true,
