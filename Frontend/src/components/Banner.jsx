@@ -1,13 +1,12 @@
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper-bundle.min.css';
-import 'swiper/swiper.min.css';
-import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.min.css";
+import "swiper/swiper.min.css";
+import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const Banner = () => {
   // install Swiper modules
@@ -15,10 +14,10 @@ const Banner = () => {
   return (
     <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] my-8">
       <Swiper
-        spaceBetween={0}       // No gap between slides
-        slidesPerView={1}      // Only 1 image at a time (full-width)
-        loop={true}            // Infinite loop
-        navigation={true}      // Show navigation (next/prev buttons)
+        spaceBetween={0} // No gap between slides
+        slidesPerView={1} // Only 1 image at a time (full-width)
+        loop={true} // Infinite loop
+        navigation={true} // Show navigation (next/prev buttons)
         pagination={{ clickable: true }} // Optional: add pagination dots
         autoplay={{ delay: 4000, disableOnInteraction: false }} // Auto slide every 4 seconds
       >
