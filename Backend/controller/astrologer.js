@@ -24,11 +24,20 @@ export const getAstrologerById = async (req, res) => {
 export const filterAstrologers = async (req, res) => {
   try {
     const { languages, expertise } = req.body;
-    const astrologers = await Astrologer.find({
-      $or: [
-        {language: { $in: languages }}, {expertise: { $in: expertise }}
-      ],
-    });
+
+    const query = {};
+
+    if (languages && languages.length > 0) {
+      query.language = { $all: languages };
+    }
+
+    if (expertise && expertise.length > 0) {
+      query.expertise = { $all: expertise };
+    }
+
+    // Find astrologers using the dynamically built query
+    const astrologers = await Astrologer.find(query);
+
     return res.status(200).json(astrologers);
   } catch (error) {
     console.log(error);
