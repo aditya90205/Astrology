@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Category from "./models/sp_category_master.js"; // Adjust the path accordingly
 import dotenv from "dotenv";
+import Astrologer from "./models/sp_astrologer_master.js";
 dotenv.config();
 // Connect to your MongoDB database
 mongoose.set("strictQuery", true);
@@ -100,4 +101,148 @@ const seedCategories = async () => {
   }
 };
 
-seedCategories();
+// seedCategories();
+
+const astrologers = [
+  {
+    name: "Tarot Jaya",
+    expertise: ["Tarot Reading"],
+    language: ["Hindi", "English"],
+    experience: 6,
+    minRate: 30,
+    discountedRate: 20,
+    imgLink:
+      "https://astrology.mangalbhawan.com/public/images/IMG-20240810-WA0008.jpg",
+    rating: 5.0,
+    ratingCount: 1,
+    followers: 1,
+    status: 1,
+  },
+  {
+    name: "Acharya Nitesh",
+    expertise: ["Muhurat", "Marriage Matching"],
+    language: ["Hindi", "English"],
+    experience: 6,
+    minRate: 15,
+    discountedRate: 10,
+    imgLink:
+      "https://astrology.mangalbhawan.com/public/images/Acharya-Nitesh-Tripathi-.jpg",
+    rating: 5.0,
+    ratingCount: 30,
+    followers: 30,
+    status: 1,
+  },
+  {
+    name: "Acharya Palak",
+    expertise: ["Muhurat", "Face Reading", "Crystal Healing"],
+    language: ["Hindi"],
+    experience: 12,
+    minRate: 20,
+    discountedRate: 9,
+    imgLink:
+      "https://astrology.mangalbhawan.com/public/images/Acharya%20Palaka.jpg",
+    rating: 4.9,
+    ratingCount: 94,
+    followers: 13,
+    status: 1,
+  },
+  {
+    name: "Acharya Satyam",
+    expertise: ["Muhurat", "Ravan Sahita", "Tajik"],
+    language: ["Punjabi", "Gujarati", "Hindi"],
+    experience: 10,
+    minRate: 20,
+    discountedRate: 11,
+    imgLink:
+      "https://astrology.mangalbhawan.com/public/images/Acharya-Satyam.jpg",
+    rating: 5.0,
+    ratingCount: 8,
+    followers: 20,
+    status: 1,
+  },
+  {
+    name: "Jothidar Arun",
+    expertise: ["Face Reading", "South Astrology"],
+    language: ["Tamil", "English"],
+    experience: 10,
+    minRate: 40,
+    discountedRate: 35,
+    imgLink:
+      "https://astrology.mangalbhawan.com/public/images/Acharya-Arun%20(1).jpg",
+    rating: 0.0,
+    ratingCount: 0,
+    followers: 0,
+    status: 1,
+  },
+  {
+    name: "Acharya Ashtha",
+    expertise: ["Vedic", "Vastu", "Ravan Sahita"],
+    language: ["Hindi"],
+    experience: 9,
+    minRate: 18,
+    discountedRate: 15,
+    imgLink:
+      "https://astrology.mangalbhawan.com/public/images/Acharya%20Aastha.jpg",
+    rating: 5.0,
+    ratingCount: 380,
+    followers: 171,
+    status: 1,
+  },
+  {
+    name: "Acharya Shivam",
+    expertise: ["Vedic"],
+    language: ["Hindi"],
+    experience: 18,
+    minRate: 22,
+    discountedRate: 15,
+    imgLink:
+      "https://astrology.mangalbhawan.com/public/images/Acharya%20Shivame.jpg",
+    rating: 5.0,
+    ratingCount: 121,
+    followers: 150,
+    status: 1,
+  },
+  {
+    name: "Acharya Madhusudan",
+    expertise: ["Muhurat", "Marriage Matching"],
+    language: ["Hindi"],
+    experience: 7,
+    minRate: 20,
+    discountedRate: 9,
+    imgLink:
+      "https://astrology.mangalbhawan.com/public/images/Acharya%20Madhusudane.jpg",
+    rating: 5.0,
+    ratingCount: 160,
+    followers: 68,
+    status: 1,
+  },
+  {
+    name: "Acharya Dinanath",
+    expertise: ["Marriage Matching", "Love Life"],
+    language: ["Hindi"],
+    experience: 12,
+    minRate: 30,
+    discountedRate: 9,
+    imgLink:
+      "https://astrology.mangalbhawan.com/public/images/Acharya%20Dinanath.jpeg",
+    rating: 5.0,
+    ratingCount: 73,
+    followers: 2,
+    status: 1,
+  },
+];
+
+const seedAstrologers = async () => {
+  try {
+    await Astrologer.deleteMany();
+    await Astrologer.insertMany(
+      astrologers.map((astrologer) => ({ ...astrologer }))
+    );
+    console.log("astrologers seeded successfully");
+    mongoose.connection.close();
+  } catch (error) {
+    console.error("Error seeding astrologers:", error);
+    mongoose.connection.close();
+  }
+};
+seedAstrologers();
