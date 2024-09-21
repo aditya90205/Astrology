@@ -56,7 +56,7 @@ const AstrologerList = () => {
         try {
           const filteredResponse = await axios.post(
             "http://localhost:8080/api/astrologer/filter",
-            filters
+            {languages: filters.languages, expertise: filters.expertise}
           );
 
           // console.log(filters);
@@ -138,6 +138,9 @@ const AstrologerList = () => {
             </h3>
             <p className="text-sm text-gray-500 text-center">
               {astrologer.language.join(", ")}
+            </p>
+            <p className="text-sm text-gray-500 text-center">
+              <span className="font-bold text-md">Expertise: </span>{astrologer.expertise.join(", ")}
             </p>
             <div className="text-center mt-2">
               <span className="font-semibold">₹{astrologer.minRate}/min</span>

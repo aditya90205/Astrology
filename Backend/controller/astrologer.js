@@ -25,8 +25,9 @@ export const filterAstrologers = async (req, res) => {
   try {
     const { languages, expertise } = req.body;
     const astrologers = await Astrologer.find({
-      language: { $in: languages },
-      expertise: { $in: expertise },
+      $or: [
+        {language: { $in: languages }}, {expertise: { $in: expertise }}
+      ],
     });
     return res.status(200).json(astrologers);
   } catch (error) {
