@@ -23,10 +23,6 @@ const Banner = () => {
             alt="Banner 1"
             className="w-full h-full object-cover"
           />
-          <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
-            <h2 className="text-lg font-semibold">Slide 1 Title</h2>
-            <p>Slide 1 description goes here.</p>
-          </div>
         </div>
 
         {/* Second Slide */}
@@ -36,10 +32,6 @@ const Banner = () => {
             alt="Banner 2"
             className="w-full h-full object-cover"
           />
-          <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
-            <h2 className="text-lg font-semibold">Slide 2 Title</h2>
-            <p>Slide 2 description goes here.</p>
-          </div>
         </div>
 
         {/* Third Slide */}
@@ -49,10 +41,6 @@ const Banner = () => {
             alt="Banner 3"
             className="w-full h-full object-cover"
           />
-          <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
-            <h2 className="text-lg font-semibold">Slide 3 Title</h2>
-            <p>Slide 3 description goes here.</p>
-          </div>
         </div>
 
         {/* Fourth Slide */}
@@ -62,10 +50,6 @@ const Banner = () => {
             alt="Banner 4"
             className="w-full h-full object-cover"
           />
-          <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
-            <h2 className="text-lg font-semibold">Slide 4 Title</h2>
-            <p>Slide 4 description goes here.</p>
-          </div>
         </div>
       </Slider>
     </div>

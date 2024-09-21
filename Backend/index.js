@@ -3,6 +3,7 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import mongoose from "mongoose";
 import categoryRoute from "./routes/category.js";
+import astrologerRoute from "./routes/astrologer.js";
 dotenv.config();
 const app = express();
 app.use(cors());
@@ -10,6 +11,7 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/categories", categoryRoute);
+app.use("/api/astrologer", astrologerRoute);
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;

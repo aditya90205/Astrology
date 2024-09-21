@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,9 +25,9 @@ const Navbar = () => {
           <a href="https://6aaccc-e0.myshopify.com/" className="text-white hover:text-gray-300">
             Shopify
           </a>
-          <a href="#" className="text-white hover:text-gray-300">
-            Contact
-          </a>
+          <Link to={'/astrology-consultation'} className="text-white hover:text-gray-300">
+            Astrology Consultation
+          </Link>
         </div>
 
         {/* Hamburger icon for mobile */}

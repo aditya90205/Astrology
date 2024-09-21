@@ -69,7 +69,7 @@ const astrologerSchema = new mongoose.Schema({
     required: true,
   },
   rating: {
-    type: Number,
+    type:  Number,
   },
   ratingCount: {
     type: Number,

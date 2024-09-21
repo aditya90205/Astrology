@@ -15,7 +15,7 @@ const TopCategories = () => {
   const getCategories = async () => {
     try {
       const response = await axios.get("http://localhost:8080/api/categories/");
-      console.log(response);
+      // console.log(response);
       
       const data = await response.data;
       setCategories(data);
