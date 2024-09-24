@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Categories from "./pages/Categories";
 import Astrologers from "./pages/AstrologerList";
+import Footer from "./components/Footer";
 
 
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/all-categories" element={<Categories />}/>
         <Route path="/astrology-consultation" element={<Astrologers />}/>
       </Routes>
+      <Footer />
       </Router>
     </>
   );

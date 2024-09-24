@@ -36,12 +36,13 @@ const Banner = () => {
       <Slider {...settings}>
         {banners?.map((banner) => (
           <div className="relative w-full h-full" key={banner._id}>
-            <img
+           <a href={`/${banner.name}`}> <img
               src={banner.imgLink}
               alt={banner.name}
               title={banner.name}
               className="w-full h-full object-cover"
             />
+            </a>
           </div>
         ))}
       </Slider>

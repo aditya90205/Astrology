@@ -7,7 +7,7 @@ dotenv.config();
 // Connect to your MongoDB database
 mongoose.set("strictQuery", true);
 mongoose
-  .connect(process.env.MONGO_URL, { dbName: "astrology" })
+  .connect("mongodb+srv://hsharshsharma370:iS0dtNyGS6pAKF9C@cluster0.mmgagqi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", { dbName: "astrology" })
   .then(() => console.log("Monodb connected"))
   .catch((err) => {
     console.error("faled to connect");
@@ -263,7 +263,7 @@ const banners = [
     sequenceNo: 2,
   },
   {
-    name: "astrology",
+    name: "astrology-consultation",
     imgLink:
       "https://mangalbhawan.com/public/uploads/all/iuXG8G0sTJWtq7LGd9bHrU7b3MpYm6Bumd2Nn8qj.jpg",
     active: true,
