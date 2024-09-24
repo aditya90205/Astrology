@@ -4,6 +4,7 @@ import * as dotenv from "dotenv";
 import mongoose from "mongoose";
 import categoryRoute from "./routes/category.js";
 import astrologerRoute from "./routes/astrologer.js";
+import bannerRoute from "./routes/banners.js";
 dotenv.config();
 const app = express();
 app.use(cors());
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/categories", categoryRoute);
 app.use("/api/astrologer", astrologerRoute);
+app.use("/api/banner", bannerRoute);
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;

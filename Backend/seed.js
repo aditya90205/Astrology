@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Category from "./models/sp_category_master.js"; // Adjust the path accordingly
 import dotenv from "dotenv";
 import Astrologer from "./models/sp_astrologer_master.js";
+import Banner from "./models/sp_banner_master.js";
 dotenv.config();
 // Connect to your MongoDB database
 mongoose.set("strictQuery", true);
@@ -245,4 +246,47 @@ const seedAstrologers = async () => {
     mongoose.connection.close();
   }
 };
-seedAstrologers();
+// seedAstrologers();
+const banners = [
+  {
+    name: "ingredients",
+    imgLink:
+      "https://mangalbhawan.com/public/uploads/all/HzuB0VwXGfdmoZqwVlpRb521nlFvPj6MPqSO8L6G.jpg",
+    active: true,
+    sequenceNo: 1,
+  },
+  {
+    name: "horroscope",
+    imgLink:
+      "https://mangalbhawan.com/public/uploads/all/fuYLyvGDXDt0H4IhXWB3gltXC7QB83szKvJv2jTO.jpg",
+    active: true,
+    sequenceNo: 2,
+  },
+  {
+    name: "astrology",
+    imgLink:
+      "https://mangalbhawan.com/public/uploads/all/iuXG8G0sTJWtq7LGd9bHrU7b3MpYm6Bumd2Nn8qj.jpg",
+    active: true,
+    sequenceNo: 3,
+  },
+  {
+    name: "pitruPaksha",
+    imgLink:
+      "https://mangalbhawan.com/public/uploads/all/uQ9nHrpfz6My9Chfi7Z6lxqqZLGNsH03YRoGmmBc.jpg",
+    active: true,
+    sequenceNo: 4,
+  },
+];
+
+const seedbanners = async () => {
+  try {
+    await Banner.deleteMany();
+    await Banner.insertMany(banners.map((banner) => ({ ...banner })));
+    console.log("banners seeded successfully");
+    mongoose.connection.close();
+  } catch (error) {
+    console.error("Error seeding banners:", error);
+    mongoose.connection.close();
+  }
+};
+seedbanners();
