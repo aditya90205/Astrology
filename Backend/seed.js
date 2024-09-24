@@ -7,7 +7,7 @@ dotenv.config();
 // Connect to your MongoDB database
 mongoose.set("strictQuery", true);
 mongoose
-  .connect("mongodb+srv://hsharshsharma370:iS0dtNyGS6pAKF9C@cluster0.mmgagqi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", { dbName: "astrology" })
+  .connect(process.env.MONGO_URL, { dbName: "astrology" })
   .then(() => console.log("Monodb connected"))
   .catch((err) => {
     console.error("faled to connect");
