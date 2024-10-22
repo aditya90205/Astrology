@@ -79,7 +79,7 @@ const categories = [
 ];
 
 // Function to seed categories
-const seedCategories = async () => {
+export const seedCategories = async () => {
   try {
     // Delete existing categories
     await Category.deleteMany();
@@ -95,7 +95,6 @@ const seedCategories = async () => {
     );
 
     console.log("Categories seeded successfully");
-    mongoose.connection.close(); // Close the connection after seeding
   } catch (error) {
     console.error("Error seeding categories:", error);
     mongoose.connection.close(); // Close the connection in case of an error
