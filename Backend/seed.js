@@ -5,14 +5,14 @@ import Astrologer from "./models/sp_astrologer_master.js";
 import Banner from "./models/sp_banner_master.js";
 dotenv.config();
 // Connect to your MongoDB database
-mongoose.set("strictQuery", true);
-mongoose
-  .connect("mongodb+srv://hsharshsharma370:iS0dtNyGS6pAKF9C@cluster0.mmgagqi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", { dbName: "astrology" })
-  .then(() => console.log("Monodb connected"))
-  .catch((err) => {
-    console.error("faled to connect");
-    console.error(err);
-  });
+// mongoose.set("strictQuery", true);
+// mongoose
+//   .connect(process.env.MONGO_URL, { dbName: "astrology" })
+//   .then(() => console.log("Monodb connected"))
+//   .catch((err) => {
+//     console.error("faled to connect");
+//     console.error(err);
+//   });
 
 // Category data
 const categories = [
@@ -233,14 +233,13 @@ const astrologers = [
   },
 ];
 
-const seedAstrologers = async () => {
+export const seedAstrologers = async () => {
   try {
     await Astrologer.deleteMany();
     await Astrologer.insertMany(
       astrologers.map((astrologer) => ({ ...astrologer }))
     );
     console.log("astrologers seeded successfully");
-    mongoose.connection.close();
   } catch (error) {
     console.error("Error seeding astrologers:", error);
     mongoose.connection.close();
@@ -278,15 +277,13 @@ const banners = [
   },
 ];
 
-const seedbanners = async () => {
+export const seedbanners = async () => {
   try {
     await Banner.deleteMany();
     await Banner.insertMany(banners.map((banner) => ({ ...banner })));
     console.log("banners seeded successfully");
-    mongoose.connection.close();
   } catch (error) {
     console.error("Error seeding banners:", error);
     mongoose.connection.close();
   }
 };
-seedbanners();

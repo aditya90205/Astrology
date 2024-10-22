@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import categoryRoute from "./routes/category.js";
 import astrologerRoute from "./routes/astrologer.js";
 import bannerRoute from "./routes/banners.js";
+import { seedAstrologers, seedbanners } from "./seed.js";
 dotenv.config();
 const app = express();
 app.use(cors());
@@ -44,9 +45,11 @@ const connectDB = () => {
 };
 
 //function to start the server
-const starServer = () => {
+const starServer = async () => {
   try {
     connectDB();
+    await seedAstrologers();
+    await seedbanners();
     app.listen(8080, () => console.log("server has been started"));
   } catch (error) {
     console.log(error);
