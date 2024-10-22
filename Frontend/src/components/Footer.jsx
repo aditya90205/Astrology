@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
   const [showMore, setShowMore] = useState(false);
@@ -98,20 +99,24 @@ const Footer = () => {
         <div className="text-sm text-gray-700">
           &copy; {new Date().getFullYear()} Mangal Bhawan. All Rights Reserved.
         </div>
-        <div className="flex space-x-4">
-          <a href="#" className="hover:text-red-600">
-            <i className="fab fa-facebook"></i>
-          </a>
-          <a href="#" className="hover:text-red-600">
-            <i className="fab fa-twitter"></i>
-          </a>
-          <a href="#" className="hover:text-red-600">
-            <i className="fab fa-instagram"></i>
-          </a>
-          <a href="#" className="hover:text-red-600">
-            <i className="fab fa-linkedin"></i>
-          </a>
-        </div>
+        {/* Social Icons */}
+        <div className="flex justify-center space-x-6 mt-4 lg:mt-0">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <FaFacebook className="text-2xl text-blue-600" />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+              <FaTwitter className="text-2xl text-blue-400" />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <FaInstagram className="text-2xl text-pink-500" />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+              <FaLinkedin className="text-2xl text-blue-700" />
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+              <FaYoutube className="text-2xl text-red-500" />
+            </a>
+          </div>
       </div>
     </footer>
   );
