@@ -1,3 +1,4 @@
+// /home/dhiren-mhatre/code/digifuture/Astrology/Backend/models/sp_astrologer_master.js
 import mongoose from "mongoose";
 
 const astrologerSchema = new mongoose.Schema({
@@ -7,52 +8,14 @@ const astrologerSchema = new mongoose.Schema({
   },
   expertise: [
     {
-      type: String,
-      enum: [
-        "Vedic",
-        "Numerology",
-        "KP System",
-        "Lal Kitab",
-        "Horary",
-        "Vastu",
-        "Tarot Reading",
-        "Love Life",
-        "Nadi",
-        "Marriage Matching",
-        "Ashtakavarga",
-        "Palmistry",
-        "Ramal",
-        "Jaimini",
-        "Tajik",
-        "Western",
-        "South Astrology",
-        "Ravan Sahita",
-        "Swar Shastra",
-        "Reiki",
-        "Crystal Healing",
-        "Angel Reading",
-        "Pendulum Dowsing",
-        "Psychic Reading",
-        "Face Reading",
-        "Muhurat",
-      ],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Expertise",  // Updated ref to match your new conventions
     },
   ],
   language: [
     {
-      type: String,
-      enum: [
-        "English",
-        "Hindi",
-        "Gujarati",
-        "Marathi",
-        "Tamil",
-        "Telugu",
-        "Kannada",
-        "Malayalam",
-        "Bengali",
-        "Punjabi",
-      ],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Language",  // Updated ref to match your new conventions
     },
   ],
   experience: {
@@ -69,20 +32,20 @@ const astrologerSchema = new mongoose.Schema({
     required: true,
   },
   rating: {
-    type:  Number,
+    type: Number,
   },
   ratingCount: {
     type: Number,
-    default: 0, // Set default to 0 since initially there will be no ratings
+    default: 0,
   },
   followers: {
     type: Number,
   },
   status: {
-    type: Number,
-    enum: [0, 1, 2],
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Status",  // Updated ref to match your new conventions
   },
-});
+},{ collection: "sp_astrologer_master" });
 
 const Astrologer = mongoose.model("sp_astrologer_master", astrologerSchema);
 export default Astrologer;

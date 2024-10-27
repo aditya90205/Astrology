@@ -16,7 +16,6 @@ const bannerSchema = new mongoose.Schema({
   sequenceNo: {
     type: Number,
   },
-});
-
+},{ collection: "sp_banner_master" });
 const Banner = mongoose.model("sp_banner_master", bannerSchema);
 export default Banner;
