@@ -5,14 +5,14 @@ import Astrologer from "./models/sp_astrologer_master.js";
 import Banner from "./models/sp_banner_master.js";
 dotenv.config();
 // Connect to your MongoDB database
-mongoose.set("strictQuery", true);
-mongoose
-  .connect(process.env.MONGO_URL, { dbName: "astrology" })
-  .then(() => console.log("Monodb connected"))
-  .catch((err) => {
-    console.error("faled to connect");
-    console.error(err);
-  });
+// mongoose.set("strictQuery", true);
+// mongoose
+//   .connect(process.env.MONGO_URL, { dbName: "astrology" })
+//   .then(() => console.log("Monodb connected"))
+//   .catch((err) => {
+//     console.error("faled to connect");
+//     console.error(err);
+//   });
 
 // Category data
 const categories = [
@@ -79,7 +79,7 @@ const categories = [
 ];
 
 // Function to seed categories
-const seedCategories = async () => {
+export const seedCategories = async () => {
   try {
     // Delete existing categories
     await Category.deleteMany();
@@ -95,7 +95,6 @@ const seedCategories = async () => {
     );
 
     console.log("Categories seeded successfully");
-    mongoose.connection.close(); // Close the connection after seeding
   } catch (error) {
     console.error("Error seeding categories:", error);
     mongoose.connection.close(); // Close the connection in case of an error
@@ -233,14 +232,13 @@ const astrologers = [
   },
 ];
 
-const seedAstrologers = async () => {
+export const seedAstrologers = async () => {
   try {
     await Astrologer.deleteMany();
     await Astrologer.insertMany(
       astrologers.map((astrologer) => ({ ...astrologer }))
     );
     console.log("astrologers seeded successfully");
-    mongoose.connection.close();
   } catch (error) {
     console.error("Error seeding astrologers:", error);
     mongoose.connection.close();
@@ -278,15 +276,13 @@ const banners = [
   },
 ];
 
-const seedbanners = async () => {
+export const seedbanners = async () => {
   try {
     await Banner.deleteMany();
     await Banner.insertMany(banners.map((banner) => ({ ...banner })));
     console.log("banners seeded successfully");
-    mongoose.connection.close();
   } catch (error) {
     console.error("Error seeding banners:", error);
     mongoose.connection.close();
   }
 };
-seedbanners();
