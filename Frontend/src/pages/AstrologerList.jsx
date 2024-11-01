@@ -13,7 +13,7 @@ const AstrologerList = () => {
     const fetchAstrologers = async () => {
       try {
         const astrologerResponse = await axios.get(
-          "http://localhost:8080/api/astrologer/"
+          "https://astrology-backend-tsw0.onrender.com/api/astrologer/"
         );
         setAstrologers(astrologerResponse.data);
         setFilteredAstrologers(astrologerResponse.data); // Display all astrologers initially
@@ -55,8 +55,8 @@ const AstrologerList = () => {
       const applyFilters = async () => {
         try {
           const filteredResponse = await axios.post(
-            "http://localhost:8080/api/astrologer/filter",
-            {languages: filters.languages, expertise: filters.expertise}
+            "https://astrology-backend-tsw0.onrender.com/api/astrologer/filter",
+            { languages: filters.languages, expertise: filters.expertise }
           );
 
           // console.log(filters);
@@ -140,7 +140,8 @@ const AstrologerList = () => {
               {astrologer.language.join(", ")}
             </p>
             <p className="text-sm text-gray-500 text-center">
-              <span className="font-bold text-md">Expertise: </span>{astrologer.expertise.join(", ")}
+              <span className="font-bold text-md">Expertise: </span>
+              {astrologer.expertise.join(", ")}
             </p>
             <div className="text-center mt-2">
               <span className="font-semibold">₹{astrologer.minRate}/min</span>

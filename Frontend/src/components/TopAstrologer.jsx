@@ -9,7 +9,7 @@ const TopAstrologer = () => {
   // Fetch all astrologers from backend API
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/astrologer/") // Adjust API endpoint if needed
+      .get("https://astrology-backend-tsw0.onrender.com/api/astrologer/") // Adjust API endpoint if needed
       .then((response) => {
         console.log(response.data);
 
