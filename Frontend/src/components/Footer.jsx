@@ -14,10 +14,10 @@ const Footer = () => {
         {/* Section 1 - Description */}
         <div>
           <h3 className="text-2xl font-bold text-red-600 mb-3">
-            Why Mangal Bhawan?
+            Why Start Pandit?
           </h3>
           <p className="text-gray-700">
-            Mangal Bhawan is an Astrology and Religious portal that brings with
+            Start Pandit is an Astrology and Religious portal that brings with
             it an array of solutions for your everyday life issues.
             {showMore && (
               <span>
@@ -47,14 +47,13 @@ const Footer = () => {
         </div>
 
         {/* Section 2 - Contact Info */}
-        <div className="text-gray-700">
+        <div className="text-gray-700 md:ml-6">
           <h4 className="font-bold text-lg">Contact Info</h4>
           <p>
-            Address: A-11, Charan Singh Complex, Mehrauli Badarpur Road,
-            Saidulajab, New Delhi 110030
+            Address:  laxmi nagar new delhi
           </p>
           <p>Phone: 8800774985</p>
-          <p>Email: contact@mangalbhawan.com</p>
+          <p>Email: contact@starpandit.com</p>
         </div>
 
         {/* Section 3 - Links */}
@@ -97,7 +96,7 @@ const Footer = () => {
 
       <div className="container mx-auto flex justify-between items-center mt-8">
         <div className="text-sm text-gray-700">
-          &copy; {new Date().getFullYear()} Mangal Bhawan. All Rights Reserved.
+          &copy; {new Date().getFullYear()} Start Pandit. All Rights Reserved.
         </div>
         {/* Social Icons */}
         <div className="flex justify-center space-x-6 mt-4 lg:mt-0">
