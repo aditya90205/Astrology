@@ -11,15 +11,15 @@ import Expertise from "./models/sp_expertise_master.js";
 import Status from "./models/sp_status_master.js";
 
 dotenv.config();
-const connectToDatabase = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URL);
-    console.log("MongoDB connected");
-  } catch (error) {
-    console.error("MongoDB connection error:", error);
-    process.exit(1);
-  }
-};
+// const connectToDatabase = async () => {
+//   try {
+//     await mongoose.connect(process.env.MONGO_URL);
+//     console.log("MongoDB connected");
+//   } catch (error) {
+//     console.error("MongoDB connection error:", error);
+//     process.exit(1);
+//   }
+// };
 
 
 const languages = [
@@ -422,13 +422,4 @@ export const seedbanners = async () => {
     mongoose.connection.close();
   }
 };
-const startServer = async () => {
-  await connectToDatabase();
-  await seedCollections();
-  await seedAstrologers();
-  await seedbanners();
-  await seedCategories();
-  // Start your server here...
-};
-
-startServer();
+ 

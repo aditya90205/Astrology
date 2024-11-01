@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import categoryRoute from "./routes/category.js";
 import astrologerRoute from "./routes/astrologer.js";
 import bannerRoute from "./routes/banners.js";
+import userRoute from "./routes/user.js";
 import { seedAstrologers, seedbanners, seedCategories ,seedCollections} from "./seed.js";
 dotenv.config();
 const app = express();
@@ -15,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/categories", categoryRoute);
 app.use("/api/astrologer", astrologerRoute);
 app.use("/api/banner", bannerRoute);
-
+app.use("/api/user", userRoute);
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || "something went wrong!!";
@@ -48,7 +49,11 @@ const connectDB = () => {
 const starServer = async () => {
   try {
     connectDB();
- 
+     
+    await seedCollections();
+    await seedAstrologers();
+    await seedbanners();
+    await seedCategories();
    
     app.listen(8080, () => console.log("server has been started"));
   } catch (error) {
