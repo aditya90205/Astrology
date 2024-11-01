@@ -6,7 +6,9 @@ import { toast } from "react-toastify";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [token, setToken] = useState(JSON.parse(localStorage.getItem("auth")) || "");
+  const [token, setToken] = useState(
+    JSON.parse(localStorage.getItem("auth")) || ""
+  );
   const navigate = useNavigate();
 
   const handleLoginSubmit = async (e) => {
@@ -18,12 +20,13 @@ const Login = () => {
       const formData = { email, password };
       try {
         const response = await axios.post(
-          "http://localhost:8080/api/user/login",
+          "https://astrology-backend-tsw0.onrender.com/api/user/login",
           formData
         );
+        // Store with the same key "authToken"
         localStorage.setItem("authToken", JSON.stringify(response.data.token));
-        window.dispatchEvent(new Event("storage"));
-        
+        window.dispatchEvent(new Event("storage")); // Trigger event
+
         toast.success("Login successful");
         navigate("/");
       } catch (err) {
@@ -34,8 +37,6 @@ const Login = () => {
       toast.error("Please fill all inputs");
     }
   };
-
- 
 
   return (
     <div className="flex min-h-screen">
@@ -70,7 +71,9 @@ const Login = () => {
               )}
             </div>
             <div className="flex justify-end text-sm">
-              <a href="#" className="text-blue-600 hover:underline">Forgot password?</a>
+              <a href="#" className="text-blue-600 hover:underline">
+                Forgot password?
+              </a>
             </div>
             <button
               type="submit"
@@ -80,7 +83,10 @@ const Login = () => {
             </button>
           </form>
           <p className="text-center mt-4">
-            Don't have an account? <Link to="/register" className="text-blue-600 hover:underline">Sign Up</Link>
+            Don't have an account?{" "}
+            <Link to="/register" className="text-blue-600 hover:underline">
+              Sign Up
+            </Link>
           </p>
         </div>
       </div>

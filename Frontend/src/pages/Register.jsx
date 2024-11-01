@@ -27,7 +27,10 @@ const Register = () => {
           password,
         };
         try {
-          const response = await axios.post("http://localhost:8080/api/user/register", formData);
+          const response = await axios.post(
+            "https://astrology-backend-tsw0.onrender.com/api/user/register",
+            formData
+          );
           toast.success("Registration successful");
           navigate("/login");
         } catch (err) {
