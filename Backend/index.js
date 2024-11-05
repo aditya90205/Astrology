@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import * as dotenv from "dotenv";
 import mongoose from "mongoose";
+import callRoute from "./routes/call.js"; 
 import categoryRoute from "./routes/category.js";
 import astrologerRoute from "./routes/astrologer.js";
 import bannerRoute from "./routes/banners.js";
@@ -19,7 +20,7 @@ app.use("/api/categories", categoryRoute);
 app.use("/api/astrologer", astrologerRoute);
 app.use("/api/banner", bannerRoute);
 app.use("/api/user", userRoute);
-
+app.use("/api/calls", callRoute); 
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || "Something went wrong!";
