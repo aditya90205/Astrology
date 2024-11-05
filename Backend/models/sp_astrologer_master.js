@@ -10,13 +10,13 @@ const astrologerSchema = new mongoose.Schema(
     expertise: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Expertise",
+        ref: "sp_expertise_master",
       },
     ],
     language: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Language",
+        ref: "sp_language_master",
       },
     ],
     experience: {
@@ -44,7 +44,7 @@ const astrologerSchema = new mongoose.Schema(
     },
     status: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Status",
+      ref: "sp_status_master",
     },
   },
   {
