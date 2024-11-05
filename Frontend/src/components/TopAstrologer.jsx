@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import axios from "axios";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-
+const backendUrl = import.meta.env.VITE_BACKENDURL;
 const TopAstrologer = () => {
   const [astrologers, setAstrologers] = useState([]);
 
   // Fetch all astrologers from backend API
   useEffect(() => {
     axios
-      .get("https://astrology-backend-tsw0.onrender.com/api/astrologer/") // Adjust API endpoint if needed
+      .get(`${backendUrl}/api/astrologer/`) // Adjust API endpoint if needed
       .then((response) => {
         console.log(response.data);
 

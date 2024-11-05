@@ -3,7 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+const backendUrl = import.meta.env.VITE_BACKENDURL;
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [token, setToken] = useState(
@@ -20,7 +20,7 @@ const Login = () => {
       const formData = { email, password };
       try {
         const response = await axios.post(
-          "https://astrology-backend-tsw0.onrender.com/api/user/login",
+          `${backendUrl}/api/user/login`,
           formData
         );
         // Store with the same key "authToken"

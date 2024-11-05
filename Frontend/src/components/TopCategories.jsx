@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+const backendUrl = import.meta.env.VITE_BACKENDURL;
 const TopCategories = () => {
   const [categories, setCategories] = useState([]);
   const handleCategoryClick = (categoryName) => {
@@ -14,9 +14,7 @@ const TopCategories = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get(
-        "https://astrology-backend-tsw0.onrender.com/api/categories/"
-      );
+      const response = await axios.get(` ${backendUrl}/api/categories/`);
       // console.log(response);
 
       const data = await response.data;

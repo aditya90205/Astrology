@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
-
+const backendUrl = import.meta.env.VITE_BACKENDURL;
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [phone, setPhone] = useState("");
@@ -28,7 +28,7 @@ const Register = () => {
         };
         try {
           const response = await axios.post(
-            "https://astrology-backend-tsw0.onrender.com/api/user/register",
+            `${backendUrl}/api/user/register`,
             formData
           );
           toast.success("Registration successful");

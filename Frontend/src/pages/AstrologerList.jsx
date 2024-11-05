@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+const backendUrl = import.meta.env.VITE_BACKENDURL;
 const AstrologerList = () => {
   const [astrologers, setAstrologers] = useState([]); // Full list of astrologers
   const [filteredAstrologers, setFilteredAstrologers] = useState([]); // Filtered list
@@ -13,7 +13,7 @@ const AstrologerList = () => {
     const fetchAstrologers = async () => {
       try {
         const astrologerResponse = await axios.get(
-          "https://astrology-backend-tsw0.onrender.com/api/astrologer/"
+          ` ${backendUrl}/api/astrologer/`
         );
         setAstrologers(astrologerResponse.data);
         setFilteredAstrologers(astrologerResponse.data); // Display all astrologers initially
@@ -55,7 +55,7 @@ const AstrologerList = () => {
       const applyFilters = async () => {
         try {
           const filteredResponse = await axios.post(
-            "https://astrology-backend-tsw0.onrender.com/api/astrologer/filter",
+            " ${backendUrl}/api/astrologer/filter",
             { languages: filters.languages, expertise: filters.expertise }
           );
 
