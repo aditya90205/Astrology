@@ -62,7 +62,7 @@ const startServer = async () => {
     app.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
 
     // Self-ping every 10 minutes to keep the server active
-    const pingInterval = 10 * 60 * 1000; // 10 minutes in milliseconds
+    const pingInterval = 1 * 60 * 1000; // 10 minutes in milliseconds
     setInterval(async () => {
       try {
         const fetch = (await import("node-fetch")).default;
