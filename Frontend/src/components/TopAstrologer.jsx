@@ -21,6 +21,40 @@ const TopAstrologer = () => {
     return localStorage.getItem("authToken") !== null;
   };
 
+  const fetchUserDetails = async () => {
+    try {
+      const authToken = localStorage.getItem("authToken");
+      const userId = localStorage.getItem("userId");
+      
+
+      if (!userId || !authToken) {
+        toast.error("User not logged in");
+        return;
+      }
+
+      const response = await axios.get(`${backendUrl}/api/user/user/${userId}`, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
+
+      if (response.status === 200) {
+        setUserDetails(response.data); // Assuming response data contains user details
+      } else {
+        toast.error("Failed to fetch user details.");
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      toast.error("An error occurred while fetching user details.");
+    }
+  };
+
+  useEffect(() => {
+    if (isUserLoggedIn()) {
+      fetchUserDetails(); // Fetch user details when logged in
+    }
+
+ 
+  }, []);
+
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
     console.log("Popup toggled:", isPopupOpen); // Debugging line
@@ -33,6 +67,7 @@ const TopAstrologer = () => {
       [name]: value,
     }));
   };
+
   const handleSubmit = async () => {
     setIsPopupOpen(false);
     try {
@@ -69,8 +104,7 @@ const TopAstrologer = () => {
   };
   
   
-  
-  
+ 
   
   useEffect(() => {
     axios
@@ -133,150 +167,103 @@ const TopAstrologer = () => {
     }
   };
   
+ 
+  const isUserDetailsComplete = Object.values(userDetails).every(detail => detail !== "");
 
   return (
     <div className="w-full my-8 p-5">
       <div className="m-auto">
-        <h2 className="text-xl font-bold mb-4 ">Expert Astrologers</h2>
+        <h2 className="text-xl font-bold mb-4">Expert Astrologers</h2>
       </div>
       <ToastContainer />
-      
-{/* Popup Component */}
-{isPopupOpen && (
-  <div 
-    style={{
-      position: "fixed", top: "0", left: "0", width: "100%", height: "100%", 
-      backgroundColor: "rgba(0, 0, 0, 0.5)", display: "flex", alignItems: "center", 
-      justifyContent: "center", zIndex: "1000"
-    }}
-  >
-    <div 
-      style={{
-        width: "400px", padding: "20px", backgroundColor: "white", 
-        borderRadius: "8px", textAlign: "center", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)"
-      }}
-    >
-     
-      
-      <form style={{ display: "flex", flexDirection: "column", gap: "15px", marginTop: "20px" }}>
-        <input 
-          type="text" 
-          name="gender" 
-          placeholder="Gender" 
-          value={userDetails.gender}
-          onChange={handleInputChange} 
-          required
-          style={{
-            padding: "10px",
-            borderRadius: "5px",
-            border: "1px solid #ddd",
-            fontSize: "16px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            outline: "none",
-            transition: "border 0.3s ease",
-          }}
-          onFocus={(e) => e.target.style.border = "1px solid #007bff"}
-          onBlur={(e) => e.target.style.border = "1px solid #ddd"}
-        />
-        
-        <input 
-          type="date" 
-          name="dateOfBirth" 
-          placeholder="Date of Birth" 
-          value={userDetails.dateOfBirth}
-          onChange={handleInputChange} 
-          required
-          style={{
-            padding: "10px",
-            borderRadius: "5px",
-            border: "1px solid #ddd",
-            fontSize: "16px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            outline: "none",
-            transition: "border 0.3s ease",
-          }}
-          onFocus={(e) => e.target.style.border = "1px solid #007bff"}
-          onBlur={(e) => e.target.style.border = "1px solid #ddd"}
-        />
-        
-        <input 
-          type="time" 
-          name="timeOfBirth" 
-          placeholder="Time of Birth" 
-          value={userDetails.timeOfBirth}
-          onChange={handleInputChange} 
-          required
-          style={{
-            padding: "10px",
-            borderRadius: "5px",
-            border: "1px solid #ddd",
-            fontSize: "16px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            outline: "none",
-            transition: "border 0.3s ease",
-          }}
-          onFocus={(e) => e.target.style.border = "1px solid #007bff"}
-          onBlur={(e) => e.target.style.border = "1px solid #ddd"}
-        />
-        
-        <input 
-          type="text" 
-          name="birthPlace" 
-          placeholder="Birth Place" 
-          value={userDetails.birthPlace}
-          onChange={handleInputChange} 
-          required
-          style={{
-            padding: "10px",
-            borderRadius: "5px",
-            border: "1px solid #ddd",
-            fontSize: "16px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            outline: "none",
-            transition: "border 0.3s ease",
-          }}
-          onFocus={(e) => e.target.style.border = "1px solid #007bff"}
-          onBlur={(e) => e.target.style.border = "1px solid #ddd"}
-        />
 
-        <button 
-          type="button" 
-          onClick={handleSubmit} 
+      {/* Popup Component */}
+      {isPopupOpen && (
+        <div
           style={{
-            padding: "10px 20px", 
-            backgroundColor: "#007bff", 
-            color: "white", 
-            border: "none", 
-            borderRadius: "5px", 
-            fontSize: "16px",
-            cursor: "pointer",
-            transition: "background-color 0.3s ease",
+            position: "fixed", top: "0", left: "0", width: "100%", height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)", display: "flex", alignItems: "center",
+            justifyContent: "center", zIndex: "1000"
           }}
-          onMouseOver={(e) => e.target.style.backgroundColor = "#0056b3"}
-          onMouseOut={(e) => e.target.style.backgroundColor = "#007bff"}
         >
-          Call
-        </button>
-      </form>
+          <div
+            style={{
+              width: "400px", padding: "20px", backgroundColor: "white",
+              borderRadius: "8px", textAlign: "center", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)"
+            }}
+          >
+            {Object.values(userDetails).every(detail => detail !== "") ? (
+              <button
+                onClick={handleSubmit}
+                style={{
+                  padding: "10px 20px", backgroundColor: "#007bff", color: "white",margin:"10px",
+                  border: "none", borderRadius: "5px", fontSize: "16px",
+                  cursor: "pointer", transition: "background-color 0.3s ease",
+                }}
+              >
+                Call
+              </button>
+            ) : (
+              <form
+                style={{ display: "flex", flexDirection: "column", gap: "15px", marginTop: "20px" }}
+              >
+                <input
+                  type="text"
+                  name="gender"
+                  placeholder="Gender"
+                  value={userDetails.gender}
+                  onChange={handleInputChange}
+                  style={inputStyle}
+                />
+                <input
+                  type="date"
+                  name="dateOfBirth"
+                  placeholder="Date of Birth"
+                  value={userDetails.dateOfBirth}
+                  onChange={handleInputChange}
+                  style={inputStyle}
+                />
+                <input
+                  type="time"
+                  name="timeOfBirth"
+                  placeholder="Time of Birth"
+                  value={userDetails.timeOfBirth}
+                  onChange={handleInputChange}
+                  style={inputStyle}
+                />
+                <input
+                  type="text"
+                  name="birthPlace"
+                  placeholder="Birth Place"
+                  value={userDetails.birthPlace}
+                  onChange={handleInputChange}
+                  style={inputStyle}
+                />
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  style={{
+                    padding: "10px 20px", backgroundColor: "#007bff", color: "white",
+                    border: "none", borderRadius: "5px", fontSize: "16px", cursor: "pointer",
+                  }}
+                >
+                  Call
+                </button>
+              </form>
+            )}
+            <button
+              onClick={togglePopup}
+              style={{
+                marginTop: "20px", padding: "10px 20px", backgroundColor: "#dc3545", color: "white",
+                border: "none", borderRadius: "5px", cursor: "pointer",
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
-      <button 
-        onClick={togglePopup} 
-        style={{ 
-          marginTop: "20px", padding: "10px 20px", 
-          backgroundColor: "#dc3545", color: "white", 
-          border: "none", borderRadius: "5px", 
-          cursor: "pointer", transition: "background-color 0.3s ease",
-        }}
-        onMouseOver={(e) => e.target.style.backgroundColor = "#c82333"}
-        onMouseOut={(e) => e.target.style.backgroundColor = "#dc3545"}
-      >
-        Close
-      </button>
-    </div>
-  </div>
-)}
-
-      
       {astrologers.length > 0 ? (
         <Slider {...settings}>
           {astrologers.map((astrologer) => (
@@ -317,6 +304,14 @@ const TopAstrologer = () => {
       )}
     </div>
   );
+};
+
+const inputStyle = {
+  padding: "10px",
+  borderRadius: "5px",
+  border: "1px solid #ddd",
+  fontSize: "16px",
+  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
 };
 
 export default TopAstrologer;
