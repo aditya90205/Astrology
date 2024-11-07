@@ -15,7 +15,7 @@ const Login = () => {
     e.preventDefault();
     let email = e.target.email.value;
     let password = e.target.password.value;
-
+  
     if (email.length > 0 && password.length > 0) {
       const formData = { email, password };
       try {
@@ -23,10 +23,14 @@ const Login = () => {
           `${backendUrl}/api/user/login`,
           formData
         );
-        // Store with the same key "authToken"
+        const decodedToken = decodeJWT(response.data.token);  // Decode JWT to extract userId
+        const userId = decodedToken?.id;
+        
         localStorage.setItem("authToken", JSON.stringify(response.data.token));
+        localStorage.setItem("userId", userId);  // Store userId in localStorage
+  
         window.dispatchEvent(new Event("storage")); // Trigger event
-
+  
         toast.success("Login successful");
         navigate("/");
       } catch (err) {
@@ -37,6 +41,19 @@ const Login = () => {
       toast.error("Please fill all inputs");
     }
   };
+  
+  const decodeJWT = (token) => {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const decodedPayload = JSON.parse(atob(base64));
+      return decodedPayload;
+    } catch (error) {
+      console.error("Failed to decode JWT", error);
+      return null;
+    }
+  };
+  
 
   return (
     <div className="flex min-h-screen">
