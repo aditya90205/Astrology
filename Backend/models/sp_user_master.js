@@ -31,6 +31,25 @@ const UserSchema = new mongoose.Schema(
       required: [true, "Please provide password"],
       minlength: 3,
     },
+    // Additional fields
+    gender: {
+      type: String,
+      enum: ['male', 'female', 'other'], // Ensure these are the allowed values
+      required: true
+    },
+    dateOfBirth: {
+      type: Date,
+      default: null,
+    },
+    timeOfBirth: {
+      type: String, // Storing as a string (HH:mm format), change type if needed
+      default: null,
+    },
+    birthPlace: {
+      type: String,
+      maxlength: 100,
+      default: null,
+    },
   },
   { 
     collection: "sp_user_master", 
@@ -50,4 +69,4 @@ UserSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-export default mongoose.model("User", UserSchema); // Ensure this matches how you import it in the controller
+export default mongoose.model("User", UserSchema);

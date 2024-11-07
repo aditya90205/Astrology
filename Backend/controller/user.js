@@ -34,6 +34,25 @@ export const login = async (req, res) => {
   }
 };
 
+export const getUserById = async (req, res) => {
+  try {
+    const { userId } = req.params; // Get user ID from URL parameters
+
+    // Find the user by their ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Return the user details
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+
 export const getAllUsers = async (req, res) => {
   const users = await User.find({});
   return res.status(200).json({ users });
@@ -63,5 +82,27 @@ export const register = async (req, res) => {
   } catch (error) {
     console.error("Error during registration:", error.message);
     res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { userId } = req.params; // Assumes user ID is passed in the URL
+    const updateFields = req.body; // Capture all fields from the request body
+
+    // Update user profile with dynamic fields
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      updateFields,
+      { new: true, runValidators: true } // Options to return the updated document and run validators
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'Profile updated successfully', updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
