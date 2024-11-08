@@ -62,20 +62,22 @@ const startServer = async () => {
     app.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
 
     // Self-ping every 10 minutes to keep the server active
-    const pingInterval = 1 * 60 * 1000; // 10 minutes in milliseconds
-    setInterval(async () => {
-      try {
-        const fetch = (await import("node-fetch")).default;
-        const response = await fetch(`http://localhost:${PORT}/ping`);
-        if (!response.ok) {
-          console.log("Ping failed:", response.status);
-        } else {
-          console.log("Ping successful:", response.status);
-        }
-      } catch (err) {
-        console.error("Ping error:", err);
-      }
-    }, pingInterval);
+    // Self-ping every 10 minutes to keep the server active
+const pingInterval = 10 * 60 * 1000; // 10 minutes in milliseconds
+setInterval(async () => {
+  try {
+    const fetch = (await import("node-fetch")).default;
+    const response = await fetch(`https://astrology-pi.vercel.app/ping`);
+    if (!response.ok) {
+      console.log("Ping failed:", response.status);
+    } else {
+      console.log("Ping successful:", response.status);
+    }
+  } catch (err) {
+    console.error("Ping error:", err);
+  }
+}, pingInterval);
+
   } catch (error) {
     console.log(error);
   }
