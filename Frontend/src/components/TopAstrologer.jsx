@@ -11,33 +11,35 @@ const TopAstrologer = () => {
   const [astrologers, setAstrologers] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [userDetails, setUserDetails] = useState({
-    gender: '',
-    dateOfBirth: '',
-    timeOfBirth: '',
-    birthPlace: ''
+    gender: "",
+    dateOfBirth: "",
+    timeOfBirth: "",
+    birthPlace: "",
   });
   const isUserLoggedIn = () => {
     // Replace with actual login check logic
     return localStorage.getItem("authToken") !== null;
   };
 
+  // Update userDetails state and persist data if user logs in again
   const fetchUserDetails = async () => {
     try {
       const authToken = localStorage.getItem("authToken");
       const userId = localStorage.getItem("userId");
-      
 
       if (!userId || !authToken) {
         toast.error("User not logged in");
         return;
       }
 
-      const response = await axios.get(`${backendUrl}/api/user/user/${userId}`, {
-        headers: { Authorization: `Bearer ${authToken}` }
-      });
+      const response = await axios.get(
+        `${backendUrl}/api/user/user/${userId}`,
+        { headers: { Authorization: `Bearer ${authToken}` } }
+      );
 
       if (response.status === 200) {
-        setUserDetails(response.data); // Assuming response data contains user details
+        setUserDetails(response.data); // Assume response.data contains user details
+        localStorage.setItem("userDetails", JSON.stringify(response.data));
       } else {
         toast.error("Failed to fetch user details.");
       }
@@ -46,15 +48,16 @@ const TopAstrologer = () => {
       toast.error("An error occurred while fetching user details.");
     }
   };
-
   useEffect(() => {
     if (isUserLoggedIn()) {
-      fetchUserDetails(); // Fetch user details when logged in
+      const storedDetails = localStorage.getItem("userDetails");
+      if (storedDetails) {
+        setUserDetails(JSON.parse(storedDetails));
+      } else {
+        fetchUserDetails();
+      }
     }
-
- 
   }, []);
-
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
     console.log("Popup toggled:", isPopupOpen); // Debugging line
@@ -68,31 +71,27 @@ const TopAstrologer = () => {
     }));
   };
 
+  // Save user details and update database
   const handleSubmit = async () => {
     setIsPopupOpen(false);
     try {
       const authToken = localStorage.getItem("authToken");
-      const userId = localStorage.getItem("userId");  // Retrieve userId from localStorage
-  
+      const userId = localStorage.getItem("userId");
+
       if (!userId) {
         toast.error("User not logged in");
         return;
       }
-      
-      console.log(`Sending request to: ${backendUrl}/api/user/updateProfile/${userId}`);
 
       const response = await axios.put(
-        `${backendUrl}/api/user/updateProfile/${userId}`, 
-        userDetails, 
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`
-          }
-        }
+        `${backendUrl}/api/user/updateProfile/${userId}`,
+        userDetails,
+        { headers: { Authorization: `Bearer ${authToken}` } }
       );
-  
+
       if (response.status === 200) {
         toast.success("Details updated successfully!");
+        localStorage.setItem("userDetails", JSON.stringify(userDetails)); // Save to localStorage
         setIsPopupOpen(false);
       } else {
         toast.error("Failed to update details.");
@@ -102,10 +101,7 @@ const TopAstrologer = () => {
       toast.error("An error occurred. Please try again.");
     }
   };
-  
-  
- 
-  
+
   useEffect(() => {
     axios
       .get(`${backendUrl}/api/astrologer/`)
@@ -122,7 +118,15 @@ const TopAstrologer = () => {
     return (
       <FaArrowLeft
         className={className}
-        style={{ ...style, display: "block", left: "10px", zIndex: 1, color: "black", fontSize: "24px", cursor: "pointer" }}
+        style={{
+          ...style,
+          display: "block",
+          left: "10px",
+          zIndex: 1,
+          color: "black",
+          fontSize: "24px",
+          cursor: "pointer",
+        }}
         onClick={onClick}
       />
     );
@@ -133,7 +137,15 @@ const TopAstrologer = () => {
     return (
       <FaArrowRight
         className={className}
-        style={{ ...style, display: "block", right: "10px", zIndex: 1, color: "black", fontSize: "24px", cursor: "pointer" }}
+        style={{
+          ...style,
+          display: "block",
+          right: "10px",
+          zIndex: 1,
+          color: "black",
+          fontSize: "24px",
+          cursor: "pointer",
+        }}
         onClick={onClick}
       />
     );
@@ -155,20 +167,57 @@ const TopAstrologer = () => {
     ],
   };
 
-  const handleCallClick = () => {
+  const handleButtonClick = (astrologerId) => {
+    handleSubmit(); // Call handleSubmit first
+    handleCallClick(astrologerId); // Then call handleCallClick with the astrologer ID
+  };
+
+  const handleCallClick = async (astrologerId) => {
+    const supportPhoneNumber = "+918800774985"; // Update number as needed
+
     if (isUserLoggedIn()) {
-      if (isPopupOpen) {
-        handleSubmit(); // Update user details when the popup is open
+      const requiredFields = ["gender", "dateOfBirth", "timeOfBirth", "birthPlace"];
+      const isUserDetailsComplete = requiredFields.every((field) => userDetails[field]);
+
+      if (!isUserDetailsComplete) {
+        setIsPopupOpen(true);
       } else {
-        togglePopup(); // Open the popup if it's not already open
+        const authToken = localStorage.getItem("authToken");
+        const userId = localStorage.getItem("userId");
+
+        if (!userId || !astrologerId) {
+          toast.error("User or astrologer ID missing.");
+          return;
+        }
+
+        const callDetails = {
+          user_id: userId,
+          astrologer_id: astrologerId,
+          date_of_call: new Date().toISOString(),
+          call_duration: 0,
+          flag_free_paid_call: "free",
+        };
+
+        try {
+          await axios.post(`${backendUrl}/api/calls`, callDetails, {
+            headers: { Authorization: `Bearer ${authToken}` },
+          });
+
+          // Open the dialer for the call
+          window.location.href = `tel:${supportPhoneNumber}`;
+        } catch (error) {
+          console.error("Error logging the call:", error);
+          toast.error("Error logging the call.");
+        }
       }
     } else {
       toast.warning("Please log in to place a call.");
     }
   };
-  
- 
-  const isUserDetailsComplete = Object.values(userDetails).every(detail => detail !== "");
+
+  const isUserDetailsComplete = Object.values(userDetails).every(
+    (detail) => detail !== ""
+  );
 
   return (
     <div className="w-full my-8 p-5">
@@ -176,94 +225,9 @@ const TopAstrologer = () => {
         <h2 className="text-xl font-bold mb-4">Expert Astrologers</h2>
       </div>
       <ToastContainer />
-
-      {/* Popup Component */}
       {isPopupOpen && (
-        <div
-          style={{
-            position: "fixed", top: "0", left: "0", width: "100%", height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)", display: "flex", alignItems: "center",
-            justifyContent: "center", zIndex: "1000"
-          }}
-        >
-          <div
-            style={{
-              width: "400px", padding: "20px", backgroundColor: "white",
-              borderRadius: "8px", textAlign: "center", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)"
-            }}
-          >
-            {Object.values(userDetails).every(detail => detail !== "") ? (
-              <button
-                onClick={handleSubmit}
-                style={{
-                  padding: "10px 20px", backgroundColor: "#007bff", color: "white",margin:"10px",
-                  border: "none", borderRadius: "5px", fontSize: "16px",
-                  cursor: "pointer", transition: "background-color 0.3s ease",
-                }}
-              >
-                Call
-              </button>
-            ) : (
-              <form
-                style={{ display: "flex", flexDirection: "column", gap: "15px", marginTop: "20px" }}
-              >
-                <input
-                  type="text"
-                  name="gender"
-                  placeholder="Gender"
-                  value={userDetails.gender}
-                  onChange={handleInputChange}
-                  style={inputStyle}
-                />
-                <input
-                  type="date"
-                  name="dateOfBirth"
-                  placeholder="Date of Birth"
-                  value={userDetails.dateOfBirth}
-                  onChange={handleInputChange}
-                  style={inputStyle}
-                />
-                <input
-                  type="time"
-                  name="timeOfBirth"
-                  placeholder="Time of Birth"
-                  value={userDetails.timeOfBirth}
-                  onChange={handleInputChange}
-                  style={inputStyle}
-                />
-                <input
-                  type="text"
-                  name="birthPlace"
-                  placeholder="Birth Place"
-                  value={userDetails.birthPlace}
-                  onChange={handleInputChange}
-                  style={inputStyle}
-                />
-                <button
-                  type="button"
-                  onClick={handleSubmit}
-                  style={{
-                    padding: "10px 20px", backgroundColor: "#007bff", color: "white",
-                    border: "none", borderRadius: "5px", fontSize: "16px", cursor: "pointer",
-                  }}
-                >
-                  Call
-                </button>
-              </form>
-            )}
-            <button
-              onClick={togglePopup}
-              style={{
-                marginTop: "20px", padding: "10px 20px", backgroundColor: "#dc3545", color: "white",
-                border: "none", borderRadius: "5px", cursor: "pointer",
-              }}
-            >
-              Close
-            </button>
-          </div>
-        </div>
+        <Popup userDetails={userDetails} handleInputChange={handleInputChange} handleSubmit={handleSubmit} />
       )}
-
       {astrologers.length > 0 ? (
         <Slider {...settings}>
           {astrologers.map((astrologer) => (
@@ -274,7 +238,9 @@ const TopAstrologer = () => {
                   alt={astrologer.name}
                   className="w-32 h-32 rounded-full mx-auto object-cover"
                 />
-                <h3 className="text-lg font-semibold mt-4">{astrologer.name}</h3>
+                <h3 className="text-lg font-semibold mt-4">
+                  {astrologer.name}
+                </h3>
                 <div className="flex items-center justify-center mt-2">
                   {Array.from({ length: 5 }).map((_, index) => (
                     <span key={index}>
@@ -290,7 +256,7 @@ const TopAstrologer = () => {
                   View Profile
                 </button>
                 <button
-                  onClick={handleCallClick}
+                  onClick={() => handleCallClick(astrologer._id)} // Pass astrologer._id
                   className="mt-4 ml-2 bg-blue-500 text-white py-2 px-4 rounded"
                 >
                   Call
@@ -305,13 +271,32 @@ const TopAstrologer = () => {
     </div>
   );
 };
-
+const Popup = ({ userDetails, handleInputChange, handleSubmit }) => (
+  <div style={{
+    position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", display: "flex", alignItems: "center",
+    justifyContent: "center", zIndex: 1000,
+  }}>
+    <div style={{
+      width: "400px", padding: "20px", backgroundColor: "white", borderRadius: "8px",
+      textAlign: "center", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    }}>
+      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} style={{ display: "flex", flexDirection: "column", gap: "15px", marginTop: "20px" }}>
+        <input type="text" name="gender" placeholder="Gender" value={userDetails.gender} onChange={handleInputChange} />
+        <input type="date" name="dateOfBirth" placeholder="Date of Birth" value={userDetails.dateOfBirth} onChange={handleInputChange} />
+        <input type="time" name="timeOfBirth" placeholder="Time of Birth" value={userDetails.timeOfBirth} onChange={handleInputChange} />
+        <input type="text" name="birthPlace" placeholder="Birth Place" value={userDetails.birthPlace} onChange={handleInputChange} />
+        <button type="submit" className="bg-green-500 text-white py-2 px-4 rounded">Save & Continue</button>
+      </form>
+    </div>
+  </div>
+);
 const inputStyle = {
   padding: "10px",
   borderRadius: "5px",
   border: "1px solid #ddd",
   fontSize: "16px",
-  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
 };
 
 export default TopAstrologer;
