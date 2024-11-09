@@ -63,7 +63,7 @@ const startServer = async () => {
 
     // Self-ping every 10 minutes to keep the server active
     // Self-ping every 10 minutes to keep the server active
-const pingInterval = 10 * 60 * 1000; // 10 minutes in milliseconds
+const pingInterval = 5* 60 * 1000; // 10 minutes in milliseconds
 setInterval(async () => {
   try {
     const fetch = (await import("node-fetch")).default;
