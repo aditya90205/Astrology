@@ -61,6 +61,7 @@ const startServer = async () => {
 
     // Self-ping every 10 minutes to keep the server active
     // Self-ping every 10 minutes to keep the server active
+ 
     const serverURL = `${process.env.OPO}`; // Ensure this uses the correct protocol (http or https)
 
     setInterval(() => {
@@ -70,7 +71,8 @@ const startServer = async () => {
         console.error("Error pinging the server:", err.message);
       });
     }, 6000);
-
+ 
+ 
   } catch (error) {
     console.log(error);
   }
