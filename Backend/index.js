@@ -7,6 +7,7 @@ import categoryRoute from "./routes/category.js";
 import astrologerRoute from "./routes/astrologer.js";
 import bannerRoute from "./routes/banners.js";
 import userRoute from "./routes/user.js";
+import https from "https"; 
 import { seedAstrologers, seedbanners, seedCategories, seedCollections } from "./seed.js";
 dotenv.config();
 
@@ -32,10 +33,7 @@ app.get("/", (req, res) => {
   res.status(200).json({ message: "hello world" });
 });
 
-// Ping endpoint
-app.get("/ping", (req, res) => {
-  res.status(200).json({ message: "pong" });
-});
+ 
 
 // Connect to MongoDB
 const connectDB = () => {
@@ -63,20 +61,15 @@ const startServer = async () => {
 
     // Self-ping every 10 minutes to keep the server active
     // Self-ping every 10 minutes to keep the server active
-const pingInterval = 5* 60 * 1000; // 10 minutes in milliseconds
-setInterval(async () => {
-  try {
-    const fetch = (await import("node-fetch")).default;
-    const response = await fetch(`https://astrology-pi.vercel.app/ping`);
-    if (!response.ok) {
-      console.log("Ping failed:", response.status);
-    } else {
-      console.log("Ping successful:", response.status);
-    }
-  } catch (err) {
-    console.error("Ping error:", err);
-  }
-}, pingInterval);
+    const serverURL = `${process.env.OPO}`; // Ensure this uses the correct protocol (http or https)
+
+    setInterval(() => {
+      https.get(serverURL, (res) => { // Change to https.get if using HTTP
+        console.log(`Server pinged: ${res.statusCode}`);
+      }).on("error", (err) => {
+        console.error("Error pinging the server:", err.message);
+      });
+    }, 6000);
 
   } catch (error) {
     console.log(error);

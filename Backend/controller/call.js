@@ -19,7 +19,6 @@ export const createCall = async (req, res) => {
     res.status(500).json({ message: "Error creating call", error: error.message });
   }
 };
-
 // Get all call records
 export const getAllCalls = async (req, res) => {
   try {
