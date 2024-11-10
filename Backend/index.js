@@ -70,7 +70,7 @@ const startServer = async () => {
       }).on("error", (err) => {
         console.error("Error pinging the server:", err.message);
       });
-    }, 6000);
+    }, 600000);
  
  
   } catch (error) {
