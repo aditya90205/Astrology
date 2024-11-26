@@ -59,8 +59,12 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const register = async (req, res) => {
+  
   const { name, email, phoneNumber, password } = req.body;
-
+  if (!name || !email || !phoneNumber || !password) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+  console.log(req.body)
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
